@@ -48,16 +48,47 @@ function renderSidebar() {
     </div>`).join('');
 }
 
+function tryClickPlayInThisTab(doc) {
+  try {
+    const btns = doc.querySelectorAll('button');
+    for (const b of btns) {
+      if (b.textContent.toLowerCase().includes('play in this tab')) {
+        b.click();
+        return true;
+      }
+    }
+  } catch {}
+  return false;
+}
+
+function startAccountInUseWatch(iframe, maxTime) {
+  const startTime = Date.now();
+  const check = () => {
+    if (Date.now() - startTime > maxTime) return;
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      if (tryClickPlayInThisTab(doc)) return;
+    } catch {}
+    setTimeout(check, 2000);
+  };
+  setTimeout(check, 2000);
+}
+
 function loadSlot(index) {
   const acc = accounts[index];
   if (!acc.username) return;
   const iframe = $('wv' + index);
+
   iframe.src = LOGIN_URL;
   iframe.onload = () => {
+    startAccountInUseWatch(iframe, 20000);
     try {
       setTimeout(() => {
         try {
           const doc = iframe.contentDocument || iframe.contentWindow.document;
+
+          tryClickPlayInThisTab(doc);
+
           const userField = doc.querySelector('input[type="text"], input[name="username"], input[placeholder*="user" i], input[placeholder*="login" i], input[placeholder*="email" i]');
           const passField = doc.querySelector('input[type="password"]');
           const submitBtn = doc.querySelector('button[type="submit"], button.auth-imgbtn, button.primary');
@@ -79,18 +110,23 @@ function loadSlot(index) {
               submitBtn.click();
               setTimeout(() => {
                 try {
-                  const currentUrl = iframe.contentWindow.location.href;
-                  if (currentUrl.includes('/login')) {
-                    setTimeout(() => {
-                      try {
-                        const doc2 = iframe.contentDocument || iframe.contentWindow.document;
-                        const retryBtn = doc2.querySelector('button[type="submit"], button.auth-imgbtn, button.primary');
-                        if (retryBtn) retryBtn.click();
-                      } catch {}
-                    }, 3000);
-                  }
+                  const doc2 = iframe.contentDocument || iframe.contentWindow.document;
+                  tryClickPlayInThisTab(doc2);
+                  try {
+                    const currentUrl = iframe.contentWindow.location.href;
+                    if (currentUrl.includes('/login')) {
+                      setTimeout(() => {
+                        try {
+                          const doc3 = iframe.contentDocument || iframe.contentWindow.document;
+                          tryClickPlayInThisTab(doc3);
+                          const retryBtn = doc3.querySelector('button[type="submit"], button.auth-imgbtn, button.primary');
+                          if (retryBtn) retryBtn.click();
+                        } catch {}
+                      }, 3000);
+                    }
+                  } catch {}
                 } catch {}
-              }, 2000);
+              }, 2500);
             }, 800);
           }
         } catch {}
