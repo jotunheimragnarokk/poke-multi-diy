@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#080b11"/>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="icon" href="icon-192.png"/>
+  <title>Poke Multi DIY</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <img src="icon-192.png" class="brand-icon" alt=""/>
+        <span class="brand-name">Poke Multi DIY</span>
+      </div>
+      <div class="topbar-actions">
+        <button id="btnEnterAll" class="tb-btn green" title="Entrar em todas">▶ Entrar</button>
+        <button id="btnMuteAll" class="tb-btn" title="Mutar todas">🔇 Mudo</button>
+        <button id="btnToggleAccounts" class="tb-btn red" title="Gerenciar contas">⚙ Contas</button>
+        <button id="btnAnalyzer" class="tb-btn gold" title="Analyzer">📊 Analyzer</button>
+      </div>
+    </header>
+
+    <div id="panels" class="panels">
+      <div class="panel" data-index="0"><div class="panel-label">Conta 1</div><iframe id="wv0" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" allow="autoplay; clipboard-write"></iframe></div>
+      <div class="panel" data-index="1"><div class="panel-label">Conta 2</div><iframe id="wv1" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" allow="autoplay; clipboard-write"></iframe></div>
+      <div class="panel" data-index="2"><div class="panel-label">Conta 3</div><iframe id="wv2" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" allow="autoplay; clipboard-write"></iframe></div>
+      <div class="panel" data-index="3"><div class="panel-label">Conta 4</div><iframe id="wv3" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox" allow="autoplay; clipboard-write"></iframe></div>
+    </div>
+
+    <div id="accountsSidebar" class="sidebar hidden">
+      <div class="sidebar-header">
+        <h2>Contas</h2>
+        <button id="btnCloseSidebar" class="icon-btn">✕</button>
+      </div>
+      <div id="accountsList" class="sidebar-accounts"></div>
+      <button id="btnAddAccount" class="btn-add">+ Adicionar Conta</button>
+    </div>
+
+    <div id="accountModal" class="modal hidden">
+      <div class="modal-card">
+        <h3 id="modalTitle">Nova Conta</h3>
+        <input type="text" id="inputSlot" placeholder="Slot (1-4)" maxlength="1" inputmode="numeric"/>
+        <input type="text" id="inputUsername" placeholder="Username" autocomplete="username"/>
+        <input type="password" id="inputPassword" placeholder="Senha" autocomplete="current-password"/>
+        <div class="modal-actions">
+          <button id="btnSave" class="btn-primary">Salvar</button>
+          <button id="btnCancel" class="btn-secondary">Cancelar</button>
+        </div>
+        <button id="btnDelete" class="btn-danger hidden">Excluir</button>
+      </div>
+    </div>
+
+    <div id="analyzerOverlay" class="analyzer-overlay hidden">
+      <div class="analyzer-container">
+        <div class="analyzer-header">
+          <h2>Hunt Analyzer</h2>
+          <div class="analyzer-header-right">
+            <span id="analyzerTimer" class="analyzer-timer">atualizando em 15s</span>
+            <button id="refreshAnalyzer" class="icon-btn" title="Atualizar">↻</button>
+            <button id="closeAnalyzer" class="icon-btn">✕</button>
+          </div>
+        </div>
+        <div class="analyzer-body">
+          <div id="analyzerAccounts" class="analyzer-accounts"></div>
+          <div id="analyzerTotal" class="analyzer-total"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
