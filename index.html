@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Poke Multi DIY</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">🎮</div>
+      <div class="brand-text">
+        <div class="brand-title">POKE MULTI</div>
+        <div class="brand-subtitle">Gerenciador de contas · Poke Idle World · v1.0.0</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="enterAll" class="btn-accent">&#9654; Entrar em todas</button>
+      <button id="reloadAll">&#8635; Recarregar</button>
+      <button id="muteAll">&#128264; Sem som</button>
+      <button id="toggleLayout">&#9638; Layout</button>
+      <button id="openAnalyzer" class="btn-accent">&#128202; Analyzer</button>
+      <button id="accountsInfo">&#9881; Contas</button>
+      <button id="backToGrid" class="hidden">&#10530; Voltar pra grade</button>
+    </div>
+  </header>
+
+  <main id="grid" class="grid grid-4"></main>
+
+  <div id="accountsModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="accountsModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h2 id="accountsModalTitle">Contas</h2>
+          <p>Salve o login de cada painel para tentar entrar automaticamente quando abrir a ferramenta.</p>
+        </div>
+        <button id="closeAccountsModal" class="icon-btn" title="Fechar">&#10005;</button>
+      </div>
+      <form id="accountsForm" class="accounts-form"></form>
+      <div class="modal-actions">
+        <button id="clearAccounts" type="button">Limpar contas</button>
+        <button id="saveAccounts" type="button" class="btn-accent">Salvar e entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="analyzerOverlay" class="analyzer-overlay hidden">
+    <div class="analyzer-container">
+      <div class="analyzer-header">
+        <div class="analyzer-header-left">
+          <h2>&#128202; Hunt Analyzer</h2>
+          <span class="analyzer-subtitle">Dados de caça/farm de todas as contas</span>
+        </div>
+        <div class="analyzer-header-right">
+          <span id="analyzerTimer" class="analyzer-timer">atualizando em 5s</span>
+          <button id="refreshAnalyzer" class="analyzer-refresh-btn" title="Atualizar agora">&#8635;</button>
+          <button id="closeAnalyzer" class="icon-btn" title="Fechar">&#10005;</button>
+        </div>
+      </div>
+      <div class="analyzer-body">
+        <div id="analyzerAccounts" class="analyzer-accounts"></div>
+        <div id="analyzerTotal" class="analyzer-total"></div>
+      </div>
+    </div>
+  </div>
+
+  <template id="panel-template">
+    <section class="panel" data-index="">
+      <div class="panel-header">
+        <div class="panel-status">
+          <span class="status-dot"></span>
+          <span class="panel-title">Conta <span class="panel-number"></span></span>
+          <span class="panel-state">pronta</span>
+        </div>
+        <div class="panel-controls">
+          <button class="expand-btn" title="Expandir">&#9654;</button>
+          <button class="reload-btn" title="Recarregar">&#8635;</button>
+          <button class="mute-btn" title="Mutar/Ativar som">&#128266;</button>
+        </div>
+      </div>
+      <webview class="game-view" partition="" allowpopups></webview>
+    </section>
+  </template>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,566 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: #05070c;
+  color: #e7ecf5;
+  font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* ===== Barra superior ===== */
+.topbar {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: #0c1220;
+  border-bottom: 1px solid #1a2333;
+  -webkit-app-region: drag;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1c2a44;
+  border-radius: 7px;
+  font-size: 16px;
+}
+
+.brand-title {
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: #f2f5fa;
+  line-height: 1.2;
+}
+
+.brand-subtitle {
+  font-size: 10.5px;
+  color: #6b7890;
+  line-height: 1.2;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  -webkit-app-region: no-drag;
+}
+
+.actions button {
+  background: #131b2c;
+  color: #cbd6e6;
+  border: 1px solid #232f45;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+.actions button:hover { background: #1b2740; border-color: #2c3c58; }
+
+.actions .btn-accent {
+  background: #e8a83c;
+  color: #211605;
+  border: 1px solid #e8a83c;
+}
+.actions .btn-accent:hover { background: #f2b452; }
+
+.hidden { display: none !important; }
+
+/* ===== Modal de contas ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  background: rgba(2, 5, 10, 0.72);
+}
+
+.modal-card {
+  width: min(760px, 100%);
+  max-height: calc(100vh - 44px);
+  overflow-y: auto;
+  background: #0c1220;
+  border: 1px solid #26344d;
+  border-radius: 14px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 18px 12px;
+  border-bottom: 1px solid #1a2333;
+}
+
+.modal-header h2 {
+  font-size: 18px;
+  line-height: 1.2;
+  color: #f2f5fa;
+}
+
+.modal-header p {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #8b98af;
+}
+
+.icon-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #26344d;
+  border-radius: 8px;
+  background: #131b2c;
+  color: #cbd6e6;
+  cursor: pointer;
+}
+
+.accounts-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 16px 18px;
+}
+
+.account-card {
+  padding: 12px;
+  background: #090e19;
+  border: 1px solid #1a2333;
+  border-radius: 10px;
+}
+
+.account-card h3 {
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #e7ecf5;
+}
+
+.account-card label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 11px;
+  color: #8b98af;
+}
+
+.account-card input {
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px 9px;
+  background: #05070c;
+  border: 1px solid #26344d;
+  border-radius: 7px;
+  color: #e7ecf5;
+  outline: none;
+}
+
+.account-card input:focus { border-color: #e8a83c; }
+
+.password-hint {
+  min-height: 14px;
+  font-size: 10.5px;
+  color: #5c6b83;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 0 18px 18px;
+}
+
+.modal-actions button {
+  background: #131b2c;
+  color: #cbd6e6;
+  border: 1px solid #232f45;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modal-actions .btn-accent {
+  background: #e8a83c;
+  color: #211605;
+  border-color: #e8a83c;
+}
+
+@media (max-width: 720px) {
+  .accounts-form { grid-template-columns: 1fr; }
+}
+
+/* ===== Analyzer Overlay ===== */
+.analyzer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  background: #05070c;
+}
+
+.analyzer-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.analyzer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #0c1220;
+  border-bottom: 1px solid #1a2333;
+  flex-shrink: 0;
+}
+
+.analyzer-header-left h2 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #f2f5fa;
+  line-height: 1.2;
+}
+
+.analyzer-subtitle {
+  font-size: 11px;
+  color: #6b7890;
+}
+
+.analyzer-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.analyzer-timer {
+  font-size: 10.5px;
+  color: #5c6b83;
+  font-weight: 600;
+}
+
+.analyzer-refresh-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #26344d;
+  border-radius: 8px;
+  background: #131b2c;
+  color: #cbd6e6;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.analyzer-refresh-btn:hover { background: #1b2740; }
+
+.analyzer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.analyzer-accounts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.analyzer-account-card {
+  background: #0a0e17;
+  border: 1px solid #1a2333;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.analyzer-account-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: #0f1522;
+  border-bottom: 1px solid #1a2333;
+}
+
+.analyzer-account-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e8a83c;
+}
+
+.analyzer-account-status {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #1c2a44;
+  color: #6b7890;
+}
+
+.analyzer-account-status.logged {
+  background: rgba(62, 207, 106, 0.15);
+  color: #3ecf6a;
+}
+
+.analyzer-account-status.offline {
+  background: rgba(255, 128, 128, 0.15);
+  color: #ff8080;
+}
+
+.analyzer-account-body {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 80px;
+}
+
+.analyzer-account-body.loading {
+  align-items: center;
+  justify-content: center;
+  color: #5c6b83;
+  font-size: 11px;
+}
+
+.analyzer-raw-text {
+  padding: 6px 12px;
+  font-size: 9.5px;
+  color: #4a5568;
+  background: #080c15;
+  border-top: 1px solid #1a2333;
+  max-height: 80px;
+  overflow-y: auto;
+  word-break: break-all;
+  line-height: 1.4;
+  font-family: monospace;
+}
+
+.analyzer-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(26, 35, 51, 0.5);
+}
+
+.analyzer-stat-row:last-child {
+  border-bottom: none;
+}
+
+.analyzer-stat-label {
+  font-size: 11px;
+  color: #8b98af;
+  font-weight: 500;
+}
+
+.analyzer-stat-value {
+  font-size: 12px;
+  color: #e7ecf5;
+  font-weight: 700;
+}
+
+.analyzer-stat-value.gold { color: #f2c94c; }
+.analyzer-stat-value.xp { color: #6c5ce7; }
+.analyzer-stat-value.level { color: #3ecf6a; }
+.analyzer-stat-value.pokemon { color: #e8a83c; }
+.analyzer-stat-value.supply { color: #ff6b6b; }
+
+.analyzer-total {
+  background: #0c1220;
+  border: 1px solid #26344d;
+  border-radius: 12px;
+  padding: 16px;
+  flex-shrink: 0;
+}
+
+.analyzer-total h3 {
+  font-size: 14px;
+  font-weight: 800;
+  color: #f2f5fa;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1a2333;
+}
+
+.analyzer-total-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.analyzer-total-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.analyzer-total-label {
+  font-size: 10.5px;
+  color: #6b7890;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.analyzer-total-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: #e7ecf5;
+}
+
+.analyzer-total-value.gold { color: #f2c94c; }
+.analyzer-total-value.xp { color: #6c5ce7; }
+.analyzer-total-value.level { color: #3ecf6a; }
+.analyzer-total-value.pokemon { color: #e8a83c; }
+.analyzer-total-value.supply { color: #ff6b6b; }
+
+.analyzer-no-data {
+  text-align: center;
+  padding: 30px;
+  color: #5c6b83;
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .analyzer-accounts { grid-template-columns: 1fr; }
+  .analyzer-total-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ===== Grade de paineis ===== */
+.grid {
+  height: calc(100% - 52px);
+  display: grid;
+  gap: 4px;
+  padding: 4px;
+  background: #05070c;
+}
+
+.grid-4 {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.grid-stack {
+  grid-template-columns: 1fr;
+  grid-auto-rows: minmax(260px, 1fr);
+  overflow-y: auto;
+}
+
+.grid.has-expanded {
+  display: block;
+}
+
+/* ===== Painel individual ===== */
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #0a0e17;
+  border: 1px solid #1a2333;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.panel.expanded {
+  position: fixed;
+  top: 52px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  border-radius: 0;
+  border: none;
+}
+
+.grid.has-expanded .panel:not(.expanded) {
+  display: none;
+}
+
+/* Cabecalho FIXO (ocupa espaco real, nao sobrepoe o jogo) */
+.panel-header {
+  height: 26px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  background: #0f1522;
+  border-bottom: 1px solid #1a2333;
+  font-size: 11px;
+}
+
+.panel-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3ecf6a;
+  flex-shrink: 0;
+  box-shadow: 0 0 4px rgba(62,207,106,0.7);
+}
+
+.panel-title {
+  color: #e7ecf5;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.panel-state {
+  color: #5c6b83;
+  font-weight: 500;
+}
+
+.panel-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.panel-controls button {
+  background: transparent;
+  border: none;
+  color: #8b98af;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  line-height: 1;
+}
+.panel-controls button:hover { background: #1b2740; color: #e7ecf5; }
+.panel-controls button.muted { color: #ff8080; }
+
+.game-view {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  background: #05070c;
+}
