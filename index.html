@@ -20,6 +20,8 @@
       <button id="muteAll">&#128264; Sem som</button>
       <button id="toggleLayout">&#9638; Layout</button>
       <button id="openAnalyzer" class="btn-accent">&#128202; Analyzer</button>
+      <button id="openAutoHunt" class="btn-accent">&#9876; Auto Hunt</button>
+      <button id="openAutoCatch" class="btn-accent">&#127920; Auto Catch</button>
       <button id="accountsInfo">&#9881; Contas</button>
       <button id="backToGrid" class="hidden">&#10530; Voltar pra grade</button>
     </div>
@@ -60,6 +62,42 @@
       <div class="analyzer-body">
         <div id="analyzerAccounts" class="analyzer-accounts"></div>
         <div id="analyzerTotal" class="analyzer-total"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="autoHuntOverlay" class="analyzer-overlay hidden">
+    <div class="analyzer-container">
+      <div class="analyzer-header">
+        <div class="analyzer-header-left">
+          <h2>&#9876; Auto Hunt Loop</h2>
+          <span class="analyzer-subtitle">Caça automatica em loop</span>
+        </div>
+        <div class="analyzer-header-right">
+          <button id="closeAutoHunt" class="icon-btn" title="Fechar">&#10005;</button>
+        </div>
+      </div>
+      <div class="analyzer-body">
+        <div id="autoHuntConfig" class="auto-hunt-config"></div>
+        <div id="autoHuntStatus" class="analyzer-accounts"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="autoCatchOverlay" class="analyzer-overlay hidden">
+    <div class="analyzer-container">
+      <div class="analyzer-header">
+        <div class="analyzer-header-left">
+          <h2>&#127920; Auto Catch</h2>
+          <span class="analyzer-subtitle">Lança pokebolas automaticamente</span>
+        </div>
+        <div class="analyzer-header-right">
+          <button id="closeAutoCatch" class="icon-btn" title="Fechar">&#10005;</button>
+        </div>
+      </div>
+      <div class="analyzer-body">
+        <div id="autoCatchConfig" class="auto-hunt-config"></div>
+        <div id="autoCatchStatus" class="analyzer-accounts"></div>
       </div>
     </div>
   </div>

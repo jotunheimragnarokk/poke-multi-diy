@@ -15,8 +15,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tb-btn.gold:active{background:#f2c94c22}
 .tb-btn.purple{border-color:#6c5ce733;color:#6c5ce7}
 .tb-btn.purple:active{background:#6c5ce722}
+.tb-btn.orange{border-color:#e8a83c33;color:#e8a83c}
+.tb-btn.orange:active{background:#e8a83c22}
 
 .panels{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;height:calc(100vh - 44px);gap:2px;background:#0a0e17}
+.panels.panels-1{grid-template-columns:1fr;grid-template-rows:1fr}
+.panels.panels-2{grid-template-columns:1fr 1fr;grid-template-rows:1fr}
+.panels.panels-3{grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr}
+.panels.panels-4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
 .panel{position:relative;background:#0a0e17;overflow:hidden}
 .panel-label{position:absolute;top:4px;left:8px;z-index:10;background:#0c1220cc;padding:2px 8px;border-radius:4px;font-size:10px;color:#8b98af;pointer-events:none}
 .panel iframe{width:100%;height:100%;border:none;background:#000}
@@ -127,3 +133,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .bot-status.success{background:#3ecf6a22;color:#3ecf6a;border:1px solid #3ecf6a33}
 .bot-status.error{background:#ff6b6b22;color:#ff6b6b;border:1px solid #ff6b6b33}
 .bot-status.loading{background:#6c5ce722;color:#6c5ce7;border:1px solid #6c5ce733}
+
+.auto-hunt-config{padding:12px}
+.auto-hunt-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.auto-hunt-row label{font-size:11px;color:#8b98af;min-width:80px;font-weight:600}
+.auto-hunt-select{flex:1;background:#080b11;border:1px solid #1a2333;border-radius:6px;padding:6px 8px;color:#e7ecf5;font-size:11px;outline:none}
+.auto-hunt-select:focus{border-color:#e8a83c}
+.auto-hunt-select option{background:#080b11;color:#e7ecf5;padding:4px}
+.auto-hunt-input{background:#080b11;border:1px solid #1a2333;border-radius:6px;padding:6px 8px;color:#e7ecf5;font-size:11px;outline:none}
+.auto-hunt-input:focus{border-color:#e8a83c}
+.auto-hunt-btn{background:#e8a83c22;border:1px solid #e8a83c44;color:#e8a83c;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.auto-hunt-btn:active{background:#e8a83c44}
+.auto-hunt-btn.stop{background:#ff6b6b22;border-color:#ff6b6b44;color:#ff6b6b}
+.auto-hunt-btn.stop:active{background:#ff6b6b44}
