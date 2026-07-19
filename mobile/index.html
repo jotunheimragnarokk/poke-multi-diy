@@ -21,6 +21,7 @@
         <button id="btnMuteAll" class="tb-btn" title="Mutar todas">🔇 Mudo</button>
         <button id="btnToggleAccounts" class="tb-btn red" title="Gerenciar contas">⚙ Contas</button>
         <button id="btnAnalyzer" class="tb-btn gold" title="Analyzer">📊 Analyzer</button>
+        <button id="btnBot" class="tb-btn purple" title="Auto Helper Bot">🤖 Bot</button>
       </div>
     </header>
 
@@ -67,6 +68,24 @@
         <div class="analyzer-body">
           <div id="analyzerAccounts" class="analyzer-accounts"></div>
           <div id="analyzerTotal" class="analyzer-total"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="botOverlay" class="analyzer-overlay hidden">
+      <div class="analyzer-container">
+        <div class="analyzer-header">
+          <h2>🤖 Auto Helper Bot</h2>
+          <div class="analyzer-header-right">
+            <button id="refreshBot" class="icon-btn" title="Atualizar">↻</button>
+            <button id="closeBot" class="icon-btn">✕</button>
+          </div>
+        </div>
+        <div class="analyzer-body">
+          <div id="botAccountTabs" class="bot-tabs"></div>
+          <div id="botContent" class="bot-content">
+            <p style="color:#5c6b83;font-size:12px;text-align:center;padding:40px">Clique em uma conta para configurar</p>
+          </div>
         </div>
       </div>
     </div>

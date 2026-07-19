@@ -13,6 +13,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tb-btn.red:active{background:#e9456022}
 .tb-btn.gold{border-color:#f2c94c33;color:#f2c94c}
 .tb-btn.gold:active{background:#f2c94c22}
+.tb-btn.purple{border-color:#6c5ce733;color:#6c5ce7}
+.tb-btn.purple:active{background:#6c5ce722}
 
 .panels{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;height:calc(100vh - 44px);gap:2px;background:#0a0e17}
 .panel{position:relative;background:#0a0e17;overflow:hidden}
@@ -85,3 +87,43 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 .empty-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#3d4a60;font-size:12px;text-align:center;gap:8px;padding:20px}
 .empty-panel .ep-emoji{font-size:28px}
+
+.bot-tabs{display:flex;gap:6px;padding:0 14px 12px;overflow-x:auto}
+.bot-tab{background:#0a0e17;border:1px solid #1a2333;border-radius:8px;padding:8px 14px;color:#8b98af;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s}
+.bot-tab:active,.bot-tab.active{background:#6c5ce722;border-color:#6c5ce7;color:#6c5ce7}
+.bot-tab .bot-tab-status{font-size:9px;margin-left:4px}
+.bot-tab .bot-tab-status.online{color:#3ecf6a}
+.bot-tab .bot-tab-status.offline{color:#ff6b6b}
+
+.bot-content{padding:0 14px}
+.bot-section{background:#0a0e17;border:1px solid #1a2333;border-radius:10px;padding:14px;margin-bottom:10px}
+.bot-section-title{font-size:12px;font-weight:700;color:#e8a83c;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.bot-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1a233322}
+.bot-row:last-child{border-bottom:none}
+.bot-row-label{font-size:12px;color:#8b98af}
+.bot-row-value{display:flex;align-items:center;gap:8px}
+
+.toggle{position:relative;width:36px;height:20px;background:#1a2333;border-radius:10px;cursor:pointer;transition:all .2s}
+.toggle.on{background:#3ecf6a}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;background:#e7ecf5;border-radius:50%;transition:transform .2s}
+.toggle.on::after{transform:translateX(16px)}
+
+.bot-select{background:#080b11;border:1px solid #1a2333;border-radius:6px;padding:5px 8px;color:#e7ecf5;font-size:11px;cursor:pointer;outline:none;max-width:130px}
+.bot-select:focus{border-color:#6c5ce7}
+
+.bot-ball-option{display:flex;align-items:center;gap:6px;padding:6px 8px;border:1px solid #1a2333;border-radius:8px;cursor:pointer;transition:all .2s;font-size:11px;color:#8b98af}
+.bot-ball-option:active,.bot-ball-option.selected{border-color:#6c5ce7;background:#6c5ce722;color:#6c5ce7}
+.bot-ball-option img{width:20px;height:20px}
+.bot-ball-qty{font-size:9px;color:#5c6b83;margin-left:auto}
+
+.bot-balls-grid{display:flex;flex-wrap:wrap;gap:6px}
+
+.bot-potion-row{display:flex;align-items:center;gap:8px;padding:6px 0}
+.bot-potion-info{flex:1}
+.bot-potion-name{font-size:11px;color:#e7ecf5}
+.bot-potion-heal{font-size:9px;color:#5c6b83}
+
+.bot-status{padding:8px 12px;border-radius:8px;font-size:11px;text-align:center;margin-bottom:10px}
+.bot-status.success{background:#3ecf6a22;color:#3ecf6a;border:1px solid #3ecf6a33}
+.bot-status.error{background:#ff6b6b22;color:#ff6b6b;border:1px solid #ff6b6b33}
+.bot-status.loading{background:#6c5ce722;color:#6c5ce7;border:1px solid #6c5ce733}

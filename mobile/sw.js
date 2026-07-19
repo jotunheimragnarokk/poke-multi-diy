@@ -1,4 +1,4 @@
-const CACHE = 'poke-multi-v3';
+const CACHE = 'poke-multi-v4';
 const ASSETS = ['.', 'index.html', 'style.css', 'app.js', 'manifest.json'];
 
 self.addEventListener('install', e => {

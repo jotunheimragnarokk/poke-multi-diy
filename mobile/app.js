@@ -427,6 +427,10 @@ $('btnAnalyzer').addEventListener('click', openAnalyzer);
 $('closeAnalyzer').addEventListener('click', closeAnalyzer);
 $('refreshAnalyzer').addEventListener('click', () => { analyzerCountdown = 15; refreshAnalyzer(); });
 $('analyzerOverlay').addEventListener('click', e => { if (e.target === $('analyzerOverlay')) closeAnalyzer(); });
+$('btnBot').addEventListener('click', openBot);
+$('closeBot').addEventListener('click', closeBot);
+$('refreshBot').addEventListener('click', refreshBot);
+$('botOverlay').addEventListener('click', e => { if (e.target === $('botOverlay')) closeBot(); });
 
 $('accountsList').addEventListener('click', e => {
   const btn = e.target.closest('[data-action]');
@@ -435,6 +439,278 @@ $('accountsList').addEventListener('click', e => {
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
+let botSelectedAccount = 0;
+let botConfigs = {};
+
+function getTokenFromIframe(index) {
+  try {
+    const iframe = $('wv' + index);
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    const win = iframe.contentWindow;
+    const keys = ['token', 'auth_token', 'access_token', 'jwt'];
+    for (const key of keys) {
+      let val = win.localStorage.getItem(key);
+      if (val) return val;
+      val = win.sessionStorage.getItem(key);
+      if (val) return val;
+    }
+    for (let i = 0; i < win.localStorage.length; i++) {
+      const k = win.localStorage.key(i);
+      const v = win.localStorage.getItem(k);
+      if (v && v.includes('.') && v.split('.').length === 3) return v;
+    }
+    for (let i = 0; i < win.sessionStorage.length; i++) {
+      const k = win.sessionStorage.key(i);
+      const v = win.sessionStorage.getItem(k);
+      if (v && v.includes('.') && v.split('.').length === 3) return v;
+    }
+  } catch {}
+  return null;
+}
+
+async function getBotConfig(index) {
+  const token = getTokenFromIframe(index);
+  if (!token) return null;
+  try {
+    const resp = await fetch('https://poke.idleworld.online/api/game/auto-helper', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (!resp.ok) return null;
+    return await resp.json();
+  } catch { return null; }
+}
+
+async function setBotConfig(index, partial) {
+  const token = getTokenFromIframe(index);
+  if (!token) return null;
+  try {
+    const resp = await fetch('https://poke.idleworld.online/api/game/auto-helper', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(partial)
+    });
+    if (!resp.ok) return null;
+    return await resp.json();
+  } catch { return null; }
+}
+
+function openBot() {
+  $('botOverlay').classList.remove('hidden');
+  renderBotTabs();
+  if (accounts[botSelectedAccount].username) loadBotAccount(botSelectedAccount);
+}
+
+function closeBot() {
+  $('botOverlay').classList.add('hidden');
+}
+
+function renderBotTabs() {
+  const tabs = $('botAccountTabs');
+  tabs.innerHTML = accounts.map((acc, i) => {
+    const hasConfig = botConfigs[i] !== undefined;
+    const statusClass = hasConfig ? 'online' : 'offline';
+    const statusText = hasConfig ? '●' : '○';
+    return `<div class="bot-tab ${i === botSelectedAccount ? 'active' : ''}" data-bot-index="${i}">
+      ${acc.username || 'Slot ' + (i+1)}
+      <span class="bot-tab-status ${statusClass}">${statusText}</span>
+    </div>`;
+  }).join('');
+
+  tabs.querySelectorAll('.bot-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const idx = parseInt(tab.dataset.botIndex);
+      botSelectedAccount = idx;
+      renderBotTabs();
+      if (accounts[idx].username) loadBotAccount(idx);
+    });
+  });
+}
+
+async function loadBotAccount(index) {
+  const content = $('botContent');
+  content.innerHTML = '<div class="bot-status loading">Carregando configurações...</div>';
+
+  const config = await getBotConfig(index);
+  if (!config) {
+    content.innerHTML = '<div class="bot-status error">Não foi possível conectar. Verifique se a conta está logada.</div>';
+    return;
+  }
+
+  botConfigs[index] = config;
+  renderBotConfig(index, config);
+}
+
+function renderBotConfig(index, config) {
+  const content = $('botContent');
+
+  const ballsHtml = (config.balls || []).map(b =>
+    `<div class="bot-ball-option ${config.autoCatchBallId === b.id ? 'selected' : ''}" data-ball-id="${b.id}" data-ball-type="catch">
+      <img src="https://poke.idleworld.online${b.iconUrl}" alt="${b.name}"/>
+      <span>${b.name}</span>
+      <span class="bot-ball-qty">×${b.quantity}</span>
+    </div>`
+  ).join('');
+
+  const shinyBallsHtml = (config.balls || []).map(b =>
+    `<div class="bot-ball-option ${config.autoCatchShinyBallId === b.id ? 'selected' : ''}" data-ball-id="${b.id}" data-ball-type="shiny">
+      <img src="https://poke.idleworld.online${b.iconUrl}" alt="${b.name}"/>
+      <span>${b.name}</span>
+      <span class="bot-ball-qty">×${b.quantity}</span>
+    </div>`
+  ).join('');
+
+  const potionsHtml = (config.potions || []).map(p =>
+    `<div class="bot-potion-row">
+      <div class="bot-potion-info">
+        <div class="bot-potion-name">${p.name} (×${p.quantity})</div>
+        <div class="bot-potion-heal">Cura: ${p.healAmount} HP</div>
+      </div>
+      <div class="toggle ${config.autoPotionItemId === p.id ? 'on' : ''}" data-potion-id="${p.id}"></div>
+    </div>`
+  ).join('');
+
+  content.innerHTML = `
+    <div id="botStatusMsg"></div>
+
+    <div class="bot-section">
+      <div class="bot-section-title">⚔ Auto Catch</div>
+      <div class="bot-row">
+        <span class="bot-row-label">Ativar Auto Catch</span>
+        <div class="toggle ${config.autoCatch ? 'on' : ''}" data-field="autoCatch"></div>
+      </div>
+      <div class="bot-row" style="flex-direction:column;align-items:stretch;gap:8px">
+        <span class="bot-row-label">Pokéball para Catch</span>
+        <div class="bot-balls-grid">${ballsHtml}</div>
+      </div>
+      <div class="bot-row">
+        <span class="bot-row-label">Filtrar por nome</span>
+        <input class="bot-select" style="max-width:160px" type="text" data-field="autoCatchNames" value="${config.autoCatchNames || ''}" placeholder="ex: pikachu, charizard"/>
+      </div>
+    </div>
+
+    <div class="bot-section">
+      <div class="bot-section-title">✨ Auto Shiny</div>
+      <div class="bot-row">
+        <span class="bot-row-label">Ativar Auto Shiny</span>
+        <div class="toggle ${config.autoCatchShiny ? 'on' : ''}" data-field="autoCatchShiny"></div>
+      </div>
+      <div class="bot-row" style="flex-direction:column;align-items:stretch;gap:8px">
+        <span class="bot-row-label">Pokéball para Shiny</span>
+        <div class="bot-balls-grid">${shinyBallsHtml}</div>
+      </div>
+    </div>
+
+    <div class="bot-section">
+      <div class="bot-section-title">💚 Auto Potion</div>
+      <div class="bot-row">
+        <span class="bot-row-label">Ativar Auto Potion</span>
+        <div class="toggle ${config.autoPotion ? 'on' : ''}" data-field="autoPotion"></div>
+      </div>
+      <div class="bot-row">
+        <span class="bot-row-label">Threshold HP (%)</span>
+        <input class="bot-select" style="max-width:60px" type="number" data-field="autoPotionThreshold" value="${config.autoPotionThreshold}" min="1" max="100"/>
+      </div>
+      <div style="margin-top:8px">${potionsHtml}</div>
+    </div>
+
+    <div class="bot-section">
+      <div class="bot-section-title">💀 Auto Revive</div>
+      <div class="bot-row">
+        <span class="bot-row-label">Ativar Auto Revive</span>
+        <div class="toggle ${config.autoRevive ? 'on' : ''}" data-field="autoRevive"></div>
+      </div>
+      <div class="bot-row">
+        <span class="bot-row-label">Revives disponíveis</span>
+        <span style="color:#e7ecf5;font-size:12px;font-weight:600">${config.reviveCount || 0}</span>
+      </div>
+    </div>
+  `;
+
+  content.querySelectorAll('.toggle[data-field]').forEach(toggle => {
+    toggle.addEventListener('click', async () => {
+      const field = toggle.dataset.field;
+      const newVal = !toggle.classList.contains('on');
+      toggle.classList.toggle('on');
+      showBotStatus('Salvando...', 'loading');
+      const result = await setBotConfig(index, { [field]: newVal });
+      if (result) {
+        botConfigs[index] = result;
+        showBotStatus('Salvo!', 'success');
+      } else {
+        showBotStatus('Erro ao salvar', 'error');
+        toggle.classList.toggle('on');
+      }
+    });
+  });
+
+  content.querySelectorAll('.toggle[data-potion-id]').forEach(toggle => {
+    toggle.addEventListener('click', async () => {
+      const potionId = parseInt(toggle.dataset.potionId);
+      showBotStatus('Salvando...', 'loading');
+      const result = await setBotConfig(index, { autoPotionItemId: potionId });
+      if (result) {
+        botConfigs[index] = result;
+        renderBotConfig(index, result);
+        showBotStatus('Salvo!', 'success');
+      } else {
+        showBotStatus('Erro ao salvar', 'error');
+      }
+    });
+  });
+
+  content.querySelectorAll('.bot-ball-option').forEach(opt => {
+    opt.addEventListener('click', async () => {
+      const ballId = parseInt(opt.dataset.ballId);
+      const type = opt.dataset.ballType;
+      const field = type === 'shiny' ? 'autoCatchShinyBallId' : 'autoCatchBallId';
+      showBotStatus('Salvando...', 'loading');
+      const result = await setBotConfig(index, { [field]: ballId });
+      if (result) {
+        botConfigs[index] = result;
+        renderBotConfig(index, result);
+        showBotStatus('Salvo!', 'success');
+      } else {
+        showBotStatus('Erro ao salvar', 'error');
+      }
+    });
+  });
+
+  content.querySelectorAll('input[data-field]').forEach(input => {
+    let debounce = null;
+    input.addEventListener('input', () => {
+      clearTimeout(debounce);
+      debounce = setTimeout(async () => {
+        const field = input.dataset.field;
+        const val = input.type === 'number' ? parseInt(input.value) || 0 : input.value;
+        showBotStatus('Salvando...', 'loading');
+        const result = await setBotConfig(index, { [field]: val });
+        if (result) {
+          botConfigs[index] = result;
+          showBotStatus('Salvo!', 'success');
+        } else {
+          showBotStatus('Erro ao salvar', 'error');
+        }
+      }, 800);
+    });
+  });
+}
+
+function showBotStatus(msg, type) {
+  const el = $('botStatusMsg');
+  if (!el) return;
+  el.innerHTML = `<div class="bot-status ${type}">${msg}</div>`;
+  if (type === 'success') setTimeout(() => { if (el.innerHTML.includes(msg)) el.innerHTML = ''; }, 2000);
+}
+
+async function refreshBot() {
+  if (accounts[botSelectedAccount].username) {
+    loadBotAccount(botSelectedAccount);
+  }
 }
 
 loadAccounts();
