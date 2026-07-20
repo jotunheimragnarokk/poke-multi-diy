@@ -21,10 +21,6 @@
         <button id="btnEnterAll" class="tb-btn green" title="Entrar em todas">▶ Entrar</button>
         <button id="btnMuteAll" class="tb-btn" title="Mutar todas">🔇 Mudo</button>
         <button id="btnToggleAccounts" class="tb-btn red" title="Gerenciar contas">⚙ Contas</button>
-        <button id="btnAnalyzer" class="tb-btn gold" title="Analyzer">📊 Analyzer</button>
-        <button id="btnBot" class="tb-btn purple" title="Auto Helper Bot">🤖 Bot</button>
-        <button id="btnAutoHunt" class="tb-btn orange" title="Auto Hunt Loop">⚔ Hunt</button>
-        <button id="btnAutoCatch" class="tb-btn orange" title="Auto Catch">⚾ Catch</button>
       </div>
     </header>
 
@@ -50,80 +46,11 @@
         <input type="text" id="inputSlot" placeholder="Slot (1-4)" maxlength="1" inputmode="numeric"/>
         <input type="text" id="inputUsername" placeholder="Username" autocomplete="username"/>
         <input type="password" id="inputPassword" placeholder="Senha" autocomplete="current-password"/>
-        <label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;cursor:pointer;color:#e8a83c;font-weight:600;font-size:14px">
-          <input type="checkbox" id="inputVip" style="width:auto;margin:0"/>
-          Conta VIP
-        </label>
         <div class="modal-actions">
           <button id="btnSave" class="btn-primary">Salvar</button>
           <button id="btnCancel" class="btn-secondary">Cancelar</button>
         </div>
         <button id="btnDelete" class="btn-danger hidden">Excluir</button>
-      </div>
-    </div>
-
-    <div id="analyzerOverlay" class="analyzer-overlay hidden">
-      <div class="analyzer-container">
-        <div class="analyzer-header">
-          <h2>Hunt Analyzer</h2>
-          <div class="analyzer-header-right">
-            <span id="analyzerTimer" class="analyzer-timer">atualizando em 15s</span>
-            <button id="refreshAnalyzer" class="icon-btn" title="Atualizar">↻</button>
-            <button id="closeAnalyzer" class="icon-btn">✕</button>
-          </div>
-        </div>
-        <div class="analyzer-body">
-          <div id="analyzerAccounts" class="analyzer-accounts"></div>
-          <div id="analyzerTotal" class="analyzer-total"></div>
-        </div>
-      </div>
-    </div>
-
-    <div id="botOverlay" class="analyzer-overlay hidden">
-      <div class="analyzer-container">
-        <div class="analyzer-header">
-          <h2>🤖 Auto Helper Bot</h2>
-          <div class="analyzer-header-right">
-            <button id="refreshBot" class="icon-btn" title="Atualizar">↻</button>
-            <button id="closeBot" class="icon-btn">✕</button>
-          </div>
-        </div>
-        <div class="analyzer-body">
-          <div id="botAccountTabs" class="bot-tabs"></div>
-          <div id="botContent" class="bot-content">
-            <p style="color:#5c6b83;font-size:12px;text-align:center;padding:40px">Clique em uma conta para configurar</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="autoHuntOverlay" class="analyzer-overlay hidden">
-      <div class="analyzer-container">
-        <div class="analyzer-header">
-          <h2>⚔ Auto Hunt Loop</h2>
-          <div class="analyzer-header-right">
-            <button id="closeAutoHunt" class="icon-btn">✕</button>
-          </div>
-        </div>
-        <div class="analyzer-body">
-          <div id="autoHuntConfig" class="auto-hunt-config"></div>
-          <div id="autoHuntStatus" class="analyzer-accounts"></div>
-        </div>
-      </div>
-    </div>
-
-    <div id="autoCatchOverlay" class="analyzer-overlay hidden">
-      <div class="analyzer-container">
-        <div class="analyzer-header">
-          <h2>⚾ Auto Catch</h2>
-          <div class="analyzer-header-right">
-            <button id="closeAutoCatch" class="icon-btn">✕</button>
-          </div>
-        </div>
-        <div class="analyzer-body">
-          <div id="autoCatchConfig" class="auto-hunt-config"></div>
-          <div id="autoCatchStatus" class="analyzer-accounts"></div>
-        </div>
       </div>
     </div>
   </div>
